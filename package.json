@@ -1,9 +1,9 @@
 {
   "name": "reactapp",
   "private": true,
-  "homepage": "https://darksos34.github.io/music-generator/",
+  "homepage": "https://darksos34.github.io/music-generator",
   "description": "A React application built with Vite and TypeScript.",
-  "version": "0.0.0",
+  "version": "0.0.10",
   "type": "module",
   "scripts": {
     "dev": "vite",
