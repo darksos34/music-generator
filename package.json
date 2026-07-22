@@ -1,6 +1,8 @@
 {
   "name": "reactapp",
   "private": true,
+  "homepage": "https//darksos34.github.com//reactapp",
+  "description": "A React application built with Vite and TypeScript.",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
