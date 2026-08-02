@@ -13,12 +13,22 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    env:
-      NODE_OPTIONS: --no-deprecation
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    # Verwijder deze twee regels; ze zijn niet meer nodig als je v6 gebruikt
+    # env:
+    #   NODE_OPTIONS: --no-deprecation
+    #   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
+      # Checkout is al goed op v6
       - uses: actions/checkout@v6
+
+      # ⚠️ CRUCIAAL: Update van v4 naar v6
+      # v4 is de oorzaak van je waarschuwingen. v6 draait native op Node 24.
+      - uses: actions/upload-artifact@v6
+        with:
+          name: dist
+          # Voeg 'retention-days' of 'compression-level' toe als je dat eerder deed,
+          # maar de basis syntax blijft hetzelfde.
 
       - uses: actions/setup-node@v5
         with:
@@ -32,6 +42,8 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      # Upload artifact voor Pages (deze is vaak al bijgewerkt door GitHub,
+      # maar check of er een v4 is als de waarschuwing hier vandaan komt)
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
