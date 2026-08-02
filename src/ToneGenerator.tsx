@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import "./ToneGenerator.css";
 
 type Waveform = "sine" | "square" | "sawtooth" | "triangle";
 
@@ -58,41 +59,48 @@ export const ToneGenerator: React.FC = () => {
     };
 
     return (
-        <div style={{ padding: 20 }}>
-            <h2>Tone Generator</h2>
+        <section className="generator-card tone-card" aria-label="Tone Generator Controls">
+            <span className="tone-badge">Tone Lab</span>
+            <h2 className="tone-title">Tone Generator</h2>
 
-            <button onClick={toggle}>
+            <button className="tone-button" onClick={toggle}>
                 {playing ? "Stop" : "Start"}
             </button>
 
-            <div style={{ marginTop: 20 }}>
-                <label>Frequentie: {frequency} Hz</label>
+            <div className="tone-control">
+                <label htmlFor="tone-frequency">Frequency: {frequency} Hz</label>
                 <input
+                    id="tone-frequency"
+                    className="tone-range"
                     type="range"
                     min={20}
                     max={20000}
                     value={frequency}
-                    onChange={e => setFrequency(Number(e.target.value))}
+                    onChange={(e) => setFrequency(Number(e.target.value))}
                 />
             </div>
 
-            <div style={{ marginTop: 20 }}>
-                <label>Volume: {volume.toFixed(2)}</label>
+            <div className="tone-control">
+                <label htmlFor="tone-volume">Volume: {volume.toFixed(2)}</label>
                 <input
+                    id="tone-volume"
+                    className="tone-range"
                     type="range"
                     min={0}
                     max={1}
                     step={0.01}
                     value={volume}
-                    onChange={e => setVolume(Number(e.target.value))}
+                    onChange={(e) => setVolume(Number(e.target.value))}
                 />
             </div>
 
-            <div style={{ marginTop: 20 }}>
-                <label>Waveform:</label>
+            <div className="tone-control">
+                <label htmlFor="tone-waveform">Waveform</label>
                 <select
+                    id="tone-waveform"
+                    className="tone-select"
                     value={waveform}
-                    onChange={e => setWaveform(e.target.value as Waveform)}
+                    onChange={(e) => setWaveform(e.target.value as Waveform)}
                 >
                     <option value="sine">Sine</option>
                     <option value="square">Square</option>
@@ -100,6 +108,6 @@ export const ToneGenerator: React.FC = () => {
                     <option value="triangle">Triangle</option>
                 </select>
             </div>
-        </div>
+        </section>
     );
 };

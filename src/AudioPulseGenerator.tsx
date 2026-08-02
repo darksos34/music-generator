@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import "./AudioPulseGenerator.css";
 
 export const AudioPulseGenerator: React.FC = () => {
 
@@ -76,43 +77,51 @@ export const AudioPulseGenerator: React.FC = () => {
     };
 
     return (
-        <div style={{ padding: 20 }}>
-            <h2>Audio Pulse Generator</h2>
+        <section className="generator-card audio-card" aria-label="Audio Pulse Generator Controls">
+            <span className="audio-badge">Pulse Lab</span>
+            <h2 className="audio-title">Audio Pulse Generator</h2>
 
-            <input
-                type="file"
-                accept="audio/*"
-                onChange={e => {
-                    const file = e.target.files?.[0];
-                    if (file) loadTrack(file);
-                }}
-            />
-
-            <button onClick={playing ? stop : start}>
-                {playing ? "Stop" : "Start"}
-            </button>
-
-            <div style={{ marginTop: 20 }}>
-                <label>BPM: {bpm}</label>
+            <div className="audio-controls">
                 <input
-                    type="range"
-                    min={60}
-                    max={240}
-                    value={bpm}
-                    onChange={e => setBpm(Number(e.target.value))}
+                    className="audio-file"
+                    type="file"
+                    accept="audio/*"
+                    onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) loadTrack(file);
+                    }}
                 />
-            </div>
 
-            <div style={{ marginTop: 20 }}>
-                <label>Pulse Frequency: {frequency} Hz</label>
-                <input
-                    type="range"
-                    min={20}
-                    max={200}
-                    value={frequency}
-                    onChange={e => setFrequency(Number(e.target.value))}
-                />
+                <button className="audio-button" onClick={playing ? stop : start}>
+                    {playing ? "Stop" : "Start"}
+                </button>
+
+                <div className="audio-control">
+                    <label htmlFor="audio-bpm">BPM: {bpm}</label>
+                    <input
+                        id="audio-bpm"
+                        className="audio-range"
+                        type="range"
+                        min={60}
+                        max={240}
+                        value={bpm}
+                        onChange={(e) => setBpm(Number(e.target.value))}
+                    />
+                </div>
+
+                <div className="audio-control">
+                    <label htmlFor="audio-frequency">Pulse Frequency: {frequency} Hz</label>
+                    <input
+                        id="audio-frequency"
+                        className="audio-range"
+                        type="range"
+                        min={20}
+                        max={200}
+                        value={frequency}
+                        onChange={(e) => setFrequency(Number(e.target.value))}
+                    />
+                </div>
             </div>
-        </div>
+        </section>
     );
 };

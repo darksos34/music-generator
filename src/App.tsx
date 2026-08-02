@@ -1,17 +1,14 @@
-import './App.css'
-import {ToneGenerator} from "./ToneGenerator.tsx";
-import {AudioPulseGenerator} from "./AudioPulseGenerator.tsx";
+import { AudioPulseGenerator } from "./AudioPulseGenerator";
+import { ToneGenerator } from "./ToneGenerator";
+import "./Cards.css";
 
-function App() {
-  return (
-      <>
-
-        <ToneGenerator/>
-        <AudioPulseGenerator/>
-        <div className="ticks"></div>
-        <section id="spacer"></section>
-      </>
-  )
+export default function App() {
+    return (
+        <main className="cards-page">
+            <div className="cards-stack">
+                <AudioPulseGenerator />
+                <ToneGenerator />
+            </div>
+        </main>
+    );
 }
-
-export default App

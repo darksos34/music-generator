@@ -1,0 +1,60 @@
+/* Shared layout comes from Cards.css via .generator-card */
+.audio-card {
+    display: grid;
+    gap: 14px;
+}
+
+.audio-badge {
+    display: inline-block;
+    margin-bottom: 2px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #93c5fd;
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(96, 165, 250, 0.35);
+    justify-self: start;
+}
+
+.audio-title {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.audio-controls {
+    display: grid;
+    gap: 14px;
+}
+
+.audio-file {
+    width: 100%;
+}
+
+.audio-button {
+    justify-self: start;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.audio-button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+}
+
+.audio-control label {
+    display: block;
+    margin-bottom: 8px;
+    color: #cbd5e1;
+}
+
+.audio-range {
+    width: 100%;
+}
