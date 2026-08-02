@@ -1,125 +1,106 @@
-/* --- Page & global safety --- */
-/* make sure padding and box-sizing are safe */
+/* --- zachte, afgeronde buitenkant + overflow-effect --- */
+
+/* veilige basisregels */
 html, body {
-    height: 100%;
     margin: 0;
     padding: 0;
-    overflow-x: hidden; /* avoid horizontal scroll */
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: transparent;
-    box-sizing: border-box;
-}
-
-/* apply box-sizing to all elements */
-*, *::before, *::after { box-sizing: inherit; }
-
-/* keep the nice radial background on the page level so corners always show */
-body {
-    background: radial-gradient(circle at top, #1f2937, #111827 45%, #030712);
+    overflow-x: hidden; /* voorkomt horizontale scroll bij overflow-effect */
     -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    background: #030712; /* fallback donkere kleur */
 }
 
-/* cards-page wrapper — use safe-area insets as padding so nothing touches rounded corners */
+/* variabelen (kan je eventueel bovenaan je file zetten) */
+:root{
+    --bg-start: #1f2937;   /* rustiger, koude tint */
+    --bg-mid:   #0f1724;   /* donkerder midden */
+    --bg-end:   #030712;   /* bijna zwart */
+    --accent-a: rgba(59,130,246,0.12);
+    --accent-b: rgba(99,102,241,0.06);
+}
+
+/* cards-page blijft de centrale container maar krijgt positie voor pseudo-element */
 .cards-page {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    /* safe-area insets for notches / rounded displays */
-    padding-top:    max(env(safe-area-inset-top), 16px);
-    padding-right:  max(env(safe-area-inset-right), 12px);
-    padding-bottom: max(env(safe-area-inset-bottom), 16px);
-    padding-left:   max(env(safe-area-inset-left), 12px);
+    padding-top: max(env(safe-area-inset-top), 20px);
+    padding-bottom: max(env(safe-area-inset-bottom), 20px);
+    padding-left: max(env(safe-area-inset-left), 12px);
+    padding-right: max(env(safe-area-inset-right), 12px);
     min-height: 100%;
+    background: transparent; /* achtergrond komt van pseudo-element zodat gradient rondom zichtbaar blijft */
 }
 
-/* central stack keeps the cards narrow, centered and with side gutters */
-.cards-stack {
-    width: min(760px, 100%);
-    margin: 0 auto;
-    display: grid;
-    gap: clamp(10px, 2.2vw, 18px);
-    padding-inline: 8px; /* inner gutter so cards never touch screen edges */
-    /* don't force inner scrolling unless necessary */
-    max-height: none;
+/* grote, afgeronde vorm die buiten de viewport mag 'overflowen' — zacht en donker */
+.cards-page::before{
+    content: "";
+    position: absolute;
+    inset: 0; /* vul container */
+    left: 50%;
+    top: -8%;
+    width: 140%;                /* groter dan viewport zodat het buiten valt */
+    height: 120%;
+    transform: translateX(-50%) rotate(-6deg); /* zacht gekanteld */
+    border-radius: 28% / 18%;   /* organische, afgeronde vorm */
+    background: radial-gradient(1200px 600px at 20% 10%, rgba(35,58,86,0.18) 0%, transparent 28%),
+    linear-gradient(180deg, var(--bg-start) 0%, var(--bg-mid) 50%, var(--bg-end) 100%);
+    filter: blur(18px) saturate(110%);
+    opacity: 0.98;
+    z-index: 0;
+    pointer-events: none;
+    box-shadow: 0 30px 90px rgba(2,6,23,0.65); /* diepte achter de kaart */
 }
 
-/* --- Card look: floating, rounded, pleasant overflow --- */
+/* subtiele extra 'glow' accent onder de kaarten (zacht kleurverloop) */
+.cards-page::after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -8%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(59,130,246,0.06), transparent 50%);
+    filter: blur(24px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* kaarten zelf boven de achtergrond plaatsen (z-index hoger) */
+.cards-stack,
 .generator-card {
-    width: 100%;
-    max-width: 100%;
-    background: linear-gradient(
-            180deg,
-            rgba(22, 27, 34, 0.86) 0%,
-            rgba(15, 20, 27, 0.84) 100%
-    ); /* subtle depth, keeps background visible around corners */
-    border-radius: clamp(12px, 2vw, 18px);
-    padding: clamp(10px, 2.6vw, 20px);
-    color: #f8fafc;
-    /* stronger outer shadow for 'floating' look */
-    box-shadow:
-            0 18px 40px rgba(2, 6, 23, 0.6), /* deep blur */
-            0 4px 12px rgba(0, 0, 0, 0.35);  /* subtle near shadow */
-    border: 1px solid rgba(148, 163, 184, 0.12);
-    backdrop-filter: blur(8px) saturate(120%);
-    display: grid;
-    gap: 10px;
-    overflow: visible; /* allow shadow to render outside of element bounds */
+    position: relative;
+    z-index: 1;
 }
 
-/* ensure card never exceeds parent width and long content wraps */
-.generator-card,
-.generator-card * {
-    max-width: 100%;
-    word-break: break-word;
+/* behoud pagina-achtergrond-gevoel: card-achtergrond iets lichter zodat contrastrijk maar zacht */
+.generator-card {
+    background: linear-gradient(180deg, rgba(18,25,33,0.9), rgba(12,16,22,0.88));
+    border: 1px solid rgba(148,163,184,0.08);
+    border-radius: clamp(10px, 2vw, 16px);
+    box-shadow: 0 14px 40px rgba(2,6,23,0.5);
 }
 
-/* badge/title sizes */
-.generator-card .badge,
-.tone-badge,
-.audio-badge {
-    justify-self: start;
-    font-size: 0.75rem;
-    padding: 4px 8px;
-    border-radius: 999px;
-    color: #93c5fd;
-    background: rgba(59,130,246,0.12);
-    border: 1px solid rgba(96,165,250,0.18);
+/* kleine visuele tweaks — rustiger kleuren voor badges */
+.tone-badge, .audio-badge {
+    background: var(--accent-a);
+    color: #cfe8ff;
+    border: 1px solid rgba(99,102,241,0.06);
 }
 
-/* ensure controls fill width and don't push card wider */
-.generator-card input,
-.generator-card select,
-.generator-card button,
-.generator-card input[type="file"] {
-    width: 100%;
-    max-width: 100%;
-}
-
-/* Prevent elements from using fixed widths that can overflow */
-img, video {
-    max-width: 100%;
-    height: auto;
-}
-
-/* --- Mobile tightening so card stays compact on phones --- */
+/* MOBILE: extra side-gutters zodat de kaart nooit tegen de rand plakt */
 @media (max-width: 600px) {
-    .cards-stack { padding-inline: 10px; }
-    .generator-card {
-        padding: 10px;
-        border-radius: 12px;
-        gap: 8px;
-        box-shadow: 0 14px 36px rgba(2,6,23,0.55);
-    }
-
-    .generator-card button {
-        width: 100%;
-        justify-self: stretch;
-        padding: 12px;
-    }
+    .cards-stack { padding-inline: 12px; }
+    .cards-page::before { left: 50%; width: 180%; top: -12%; filter: blur(16px); }
+    .cards-page::after  { width: 95%; height: 220px; filter: blur(20px); }
+    .generator-card { padding: 12px; border-radius: 12px; }
 }
 
-/* Very small phones: give even more side gutters to avoid edges */
-@media (max-width: 380px) {
-    .cards-stack { padding-inline: 14px; }
-    .generator-card { padding: 8px; border-radius: 10px; }
-}
+/* Debug (tijdelijk) – laat zien of iets overflow veroorzaak
+   Uncomment bij problemen:
+html, body { outline: 1px solid rgba(255,0,0,0.03); }
+* { outline: 1px dashed rgba(255,255,255,0.02); }
+*/
