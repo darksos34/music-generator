@@ -2,7 +2,7 @@ name: Deploy Vite to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 permissions:
   contents: write
@@ -13,23 +13,21 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    # GEEN env variabelen meer nodig!
+    # DEZE VARIABELE IS HIER VEREIST VOOR DE "OUDE" STABIELE SETUP
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
-      - name: Mask Deprecation Warning
-        uses: actions/github-script@v7
-
-      - run: echo "::add-mask::Node.js 20 actions are deprecated"
-
+      # Gebruik v4 (stabiel, veel gebruikt)
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
+      # Setup Node (voor je build proces)
       - name: Setup Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v4
         with:
-          node-version: 24
-          cache: 'npm' # Dit vervangt vaak de aparte cache stap voor npm
+          node-version: 20 # Of 24, maar 20 was de standaard voor deze setup
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -37,13 +35,13 @@ jobs:
       - name: Build
         run: npm run build
 
-      # ⚠️ DE OPLOSSING: Update van v3 naar v4
-      # v3 is gebouwd voor Node 20 en veroorzaakt je waarschuwing.
+      # Gebruik v3 (Dit is de versie die het langst stabiel bleef)
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
+      # Gebruik v4 (Stabiele deploy versie)
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v4
