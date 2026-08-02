@@ -1,12 +1,6 @@
 /* --- zachte, afgeronde buitenkant + overflow-effect --- */
 
-/* veilige basisregels */
-html, body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    background: #030712;
-}
+
 
 /* variabelen (kan je eventueel bovenaan je file zetten) */
 :root{
@@ -17,26 +11,48 @@ html, body {
     --accent-b: rgba(99,102,241,0.06);
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+    overflow-x: hidden;
+}
+
 .cards-page {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     padding: 16px;
+    background: transparent !important;
+}
+
+.cards-page::before,
+.cards-page::after {
+    display: none !important;
+    content: none !important;
 }
 
 .cards-stack {
     width: min(760px, 100%);
+    margin: 0 auto;
     display: grid;
-    gap: 12px;
+    gap: 50px;
+    background: transparent;
 }
 
 .generator-card {
     width: 100%;
-    background: #111827;
+    background: rgba(17, 24, 39, 0.88);
     border-radius: 14px;
     padding: 14px;
     color: #f8fafc;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.04);
 }
+
+
+
 
 /* kleine visuele tweaks — rustiger kleuren voor badges */
 .tone-badge, .audio-badge {
