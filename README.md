@@ -1,32 +1,76 @@
-# React + TypeScript + Vite
+## AudioPulseGenerator – Technical Proof of Concept
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This repository contains a technical proof of concept demonstrating how browser‑based audio generation and real‑time pulse timing can be combined with external audio playback using the Web Audio API.
 
-Currently, two official plugins are available:
+The goal of this POC is to prove functionality, validate feasibility, and provide a minimal, generic foundation for future audio‑driven tools or SaaS concepts.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 🎯 Objective
 
-## React Compiler
+The AudioPulseGenerator shows that a web application can:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* Load and decode audio files directly in the browser
+* Play a track while generating additional synthesized audio
+* Produce timed pulses based on BPM
+* Combine multiple audio nodes (oscillator + gain + track)
+* Run fully client‑side without backend dependencies
 
-## Expanding the Oxlint configuration
+This POC is intentionally simple, generic, and easy to extend.
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+### 🚀 Core Features
+* Load and play external audio (MP3, WAV, FLAC, etc.)
+* Oscillator‑based pulse generator
+* BPM‑driven pulse timing 
+* Adjustable oscillator frequency 
+* Start/stop control 
+* Clean architecture suitable for expansion
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+### 🧩 Architecture Overview
+* Audio Engine — manages AudioContext, oscillator, gain nodes, and timing
+* Track Loader — decodes and plays audio files
+* Pulse Generator — creates timed pulses based on BPM
+The structure is intentionally modular to support future enhancements.
+
+### 📦 Installation
+
+```bash
+npm install
+npm run dev
 ```
+Requires a React + TypeScript environment (e.g., Vite).
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+### 🛠️ Usage
+Import the component:
+
+```tsx
+import { AudioPulseGenerator } from "./AudioPulseGenerator";
+```
+Render it:
+
+```tsx
+<AudioPulseGenerator />
+```
+### 🧪 POC Limitations
+This proof of concept is not production‑ready.
+Current limitations include:
+
+* No error handling for invalid audio files
+* Minimal UI styling
+* Single oscillator layer
+* No presets or configuration system
+* No backend or API integration
+
+The purpose is demonstration, not deployment.
+
+### 🔮 Future Extensions
+This POC can evolve into more advanced audio tools:
+
+* Multiple oscillators
+* Filters (LPF/HPF)
+* Audio effects
+* Sequencer / pattern engine
+* Preset system
+* API‑driven configuration
+* Full SaaS platform
+
+### 📄 License
+Free to use for demonstrations, prototypes, and client presentations.

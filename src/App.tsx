@@ -1,13 +1,13 @@
 import './App.css'
 import {ToneGenerator} from "./ToneGenerator.tsx";
-import {UmptempoGenerator} from "./UptemptoGenerator.tsx";
+import {AudioPulseGenerator} from "./AudioPulseGenerator.tsx";
 
 function App() {
   return (
       <>
 
         <ToneGenerator/>
-        <UmptempoGenerator/>
+        <AudioPulseGenerator/>
         <div className="ticks"></div>
         <section id="spacer"></section>
       </>
