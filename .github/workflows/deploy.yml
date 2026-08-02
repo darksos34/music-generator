@@ -10,21 +10,24 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v6
+
       - uses: actions/setup-node@v5
-      - with:
+        with:
           node-version: 24
 
       - uses: actions/cache@v5
-      - uses: actions/upload-artifact@v5
-      - uses: actions/download-artifact@v5
-      - uses: actions/checkout@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
 
       - run: npm install
       - run: npm run build
 
-      - uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
