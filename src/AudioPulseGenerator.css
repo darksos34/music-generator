@@ -1,60 +1,153 @@
-/* Shared layout comes from Cards.css via .generator-card */
-.audio-card {
-    display: grid;
-    gap: 14px;
+:root{
+    --bg-0: #030712;
+    --bg-1: #111827;
+    --bg-2: #1f2937;
+    --text: #f8fafc;
+    --line: rgba(148,163,184,0.25);
+    --brand-a: #3b82f6;
+    --brand-b: #6366f1;
 }
 
+/* PAGE BACKGROUND + safe top padding
+   Keeps the nice radial background while not forcing every child to be 100vh */
+.cards-page {
+    background: radial-gradient(circle at top, var(--bg-2), var(--bg-1) 45%, var(--bg-0));
+    padding: clamp(12px, 3vw, 28px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* stack from the top (no vertical centering that creates weird gaps) */
+    min-height: 100%; /* doesn't force full viewport per component, just ensures background covers */
+}
+
+/* Stack container that holds both cards */
+.cards-stack {
+    width: min(760px, 100%);
+    margin: 0 auto;
+    display: grid;
+    gap: clamp(10px, 2.2vw, 18px);
+    /* limit internal height so, on small viewports, inner stack can scroll without making layout awkward */
+    max-height: calc(100vh - 48px);
+    overflow: visible; /* default: let page scroll if necessary; change to 'auto' if you want inner scrolling */
+    padding-bottom: 8px;
+}
+
+/* CARD SURFACE: responsive, glassy, compact */
+.generator-card {
+    width: 100%;
+    background: color-mix(in srgb, var(--bg-1) 88%, transparent); /* subtle depth */
+    border: 1px solid var(--line);
+    border-radius: clamp(10px, 2vw, 16px);
+    padding: clamp(12px, 2.6vw, 20px);
+    color: var(--text);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.32);
+    backdrop-filter: blur(6px) saturate(120%);
+    display: grid;
+    gap: 12px;
+    align-items: start;
+}
+
+/* compact badge/title/button sizes */
+.generator-card .badge,
+.tone-badge,
 .audio-badge {
     display: inline-block;
-    margin-bottom: 2px;
+    color: #93c5fd;
+    background: rgba(59,130,246,0.12);
+    border: 1px solid rgba(96,165,250,0.25);
     padding: 4px 10px;
     border-radius: 999px;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #93c5fd;
-    background: rgba(59, 130, 246, 0.15);
-    border: 1px solid rgba(96, 165, 250, 0.35);
+    font-size: 0.75rem;
     justify-self: start;
 }
 
+.generator-card h2,
+.tone-title,
 .audio-title {
     margin: 0;
-    font-size: 1.4rem;
+    font-size: clamp(1rem, 2.8vw, 1.35rem);
+    line-height: 1.15;
 }
 
-.audio-controls {
+/* Controls layout inside card */
+.controls,
+.audio-controls,
+.tone-controls,
+.generator-card > .audio-controls,
+.generator-card > .tone-controls {
     display: grid;
-    gap: 14px;
+    gap: 12px;
 }
 
-.audio-file {
-    width: 100%;
-}
-
+/* Buttons and inputs: touch-friendly */
+.generator-card button,
+.tone-button,
 .audio-button {
-    justify-self: start;
-    border: none;
+    padding: clamp(10px, 2.2vw, 14px);
     border-radius: 10px;
-    padding: 10px 14px;
-    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    border: 0;
+    background: linear-gradient(135deg, var(--brand-a), var(--brand-b));
     color: #fff;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.15s ease, filter 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.audio-button:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.08);
-}
-
-.audio-control label {
-    display: block;
-    margin-bottom: 8px;
-    color: #cbd5e1;
-}
-
-.audio-range {
+/* full width inputs/selects on small screens */
+.generator-card input[type="range"],
+.generator-card select,
+.generator-card input[type="file"] {
     width: 100%;
+    min-height: 36px;
+    touch-action: pan-x;
+}
+
+/* small text & spacing adjustments */
+.generator-card label {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+}
+
+/* MOBILE: make cards tight, buttons full width, reduce padding */
+@media (max-width: 600px) {
+    .cards-stack {
+        max-height: none; /* allow natural flow */
+        padding: 0 10px;
+    }
+
+    .generator-card {
+        padding: 10px;
+        gap: 8px;
+        border-radius: 12px;
+    }
+
+    .generator-card button,
+    .tone-button,
+    .audio-button {
+        width: 100%;
+        justify-self: stretch;
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    .generator-card h2,
+    .tone-title,
+    .audio-title {
+        font-size: 1.05rem;
+    }
+
+    .generator-card label {
+        font-size: 0.9rem;
+    }
+
+    .generator-card input[type="range"] {
+        min-height: 40px;
+    }
+}
+
+/* VERY NARROW PHONES */
+@media (max-width: 360px) {
+    .cards-stack { padding: 0 8px; }
+    .generator-card { padding: 8px; border-radius: 10px; }
+    .generator-card h2 { font-size: 1rem; }
+    .generator-card .badge { font-size: 0.65rem; padding: 2px 6px; }
 }

@@ -59,3 +59,36 @@
     background: rgba(15, 23, 42, 0.8);
     color: #f8fafc;
 }
+
+/* Make component badges and small elements align nicely on mobile */
+.tone-badge, .audio-badge {
+    justify-self: start;
+    font-size: 0.72rem;
+    padding: 3px 8px;
+}
+
+/* Ensure the control group inside each card uses the shared .controls look */
+.tone-control, .audio-control {
+    margin-top: 0;
+    display: grid;
+    gap: 6px;
+}
+
+/* Full-width dropdown/select on small screens */
+@media (max-width: 600px) {
+    .tone-select {
+        width: 100%;
+    }
+}
+
+/* ensure buttons and badges in components obey the global responsive layout */
+.tone-button, .audio-button {
+    transition: transform 0.12s ease;
+}
+
+/* smaller control blocks */
+.tone-control, .audio-control {
+    margin-top: 0;
+    display: grid;
+    gap: 6px;
+}

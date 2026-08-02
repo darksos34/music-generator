@@ -1,49 +1,126 @@
-:root {
-    --bg-0: #030712;
-    --bg-1: #111827;
-    --bg-2: #1f2937;
-    --text: #f8fafc;
-    --line: rgba(148, 163, 184, 0.25);
-}
-.generators-stack {
-    display: grid;
-    gap: 12px; /* close together */
-    padding: 12px;
-    justify-items: center;
-}
+/* Responsive Cards (paste into src/Cards.css) */
 
+/* Layout: keep background and container but allow natural page height */
 .cards-page {
-    min-height: 100vh;
     background: radial-gradient(circle at top, var(--bg-2), var(--bg-1) 45%, var(--bg-0));
-    padding: clamp(12px, 2vw, 24px);
+    padding: clamp(12px, 3vw, 28px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* stack from top, not centered vertically */
 }
 
+/* Stack that contains the cards */
 .cards-stack {
-    width: min(620px, 100%);
+    width: min(760px, 100%);
     margin: 0 auto;
     display: grid;
-    gap: clamp(10px, 1.8vw, 16px); /* keeps cards close together */
+    gap: clamp(10px, 2.2vw, 18px); /* close but flexible */
+    padding-bottom: 12px; /* avoid last-card flush to bottom on small screens */
 }
 
+/* Shared card surface */
 .generator-card {
     width: 100%;
     background: rgba(17, 24, 39, 0.88);
     border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: clamp(14px, 2.5vw, 20px);
+    border-radius: clamp(12px, 2vw, 18px);
+    padding: clamp(12px, 2.5vw, 20px);
     color: var(--text);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.30);
     backdrop-filter: blur(6px);
+    display: grid;
+    gap: 12px;
+    container-type: inline-size; /* optional: enables container queries on modern browsers */
 }
 
-/* Mobile polish */
-@media (max-width: 480px) {
+/* Scale titles responsively */
+.generator-card h2,
+.tone-title,
+.audio-title {
+    font-size: clamp(1.05rem, 2.8vw, 1.4rem);
+    margin: 0;
+}
+
+/* Controls: grid-friendly, labels and inputs full width */
+.controls,
+.audio-controls,
+.tone-controls {
+    display: grid;
+    gap: 12px;
+}
+
+.generator-card label {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+}
+
+/* Make interactive elements touch-friendly */
+.generator-card button,
+.tone-button,
+.audio-button,
+.generator-card .primary-btn {
+    padding: clamp(10px, 2.2vw, 14px);
+    border-radius: 10px;
+    font-size: clamp(0.95rem, 2.2vw, 1rem);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Inputs and selects fill the card width */
+.generator-card input[type="range"],
+.generator-card select,
+.generator-card input[type="file"] {
+    width: 100%;
+    min-height: 36px;
+}
+
+/* Better range appearance on mobile (optional tweaks) */
+input[type="range"] {
+    accent-color: #3b82f6; /* modern browsers */
+    height: 28px;
+}
+
+/* Small screens: make buttons full-width and reduce padding */
+@media (max-width: 600px) {
     .cards-stack {
+        width: 100%;
         gap: 10px;
     }
 
     .generator-card {
+        padding: 12px;
         border-radius: 12px;
-        padding: 14px;
+    }
+
+    /* Make primary actions more prominent and full-width for easier tapping */
+    .generator-card button,
+    .tone-button,
+    .audio-button {
+        width: 100%;
+        justify-self: stretch;
+    }
+
+    /* Slightly reduce gaps for constrained vertical space */
+    .controls,
+    .audio-controls,
+    .tone-controls {
+        gap: 10px;
+    }
+
+    /* Reduce label text size so UI fits */
+    .generator-card label {
+        font-size: 0.9rem;
+    }
+}
+
+/* Optional: container query for very narrow cards (modern browsers) */
+@container (max-width: 420px) {
+    .generator-card {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .generator-card h2 {
+        font-size: 1.05rem;
     }
 }
