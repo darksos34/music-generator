@@ -4,10 +4,8 @@
 html, body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden; /* voorkomt horizontale scroll bij overflow-effect */
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    background: #030712; /* fallback donkere kleur */
+    overflow-x: hidden;
+    background: #030712;
 }
 
 /* variabelen (kan je eventueel bovenaan je file zetten) */
@@ -19,18 +17,11 @@ html, body {
     --accent-b: rgba(99,102,241,0.06);
 }
 
-/* cards-page blijft de centrale container maar krijgt positie voor pseudo-element */
 .cards-page {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-top: max(env(safe-area-inset-top), 20px);
-    padding-bottom: max(env(safe-area-inset-bottom), 20px);
-    padding-left: max(env(safe-area-inset-left), 12px);
-    padding-right: max(env(safe-area-inset-right), 12px);
-    min-height: 100%;
-    background: transparent; /* achtergrond komt van pseudo-element zodat gradient rondom zichtbaar blijft */
+    padding: 16px;
 }
 
 /* grote, afgeronde vorm die buiten de viewport mag 'overflowen' — zacht en donker */
@@ -69,19 +60,18 @@ html, body {
     pointer-events: none;
 }
 
-/* kaarten zelf boven de achtergrond plaatsen (z-index hoger) */
-.cards-stack,
-.generator-card {
-    position: relative;
-    z-index: 1;
+.cards-stack {
+    width: min(760px, 100%);
+    display: grid;
+    gap: 12px;
 }
 
-/* behoud pagina-achtergrond-gevoel: card-achtergrond iets lichter zodat contrastrijk maar zacht */
 .generator-card {
-    background: linear-gradient(180deg, rgba(18,25,33,0.9), rgba(12,16,22,0.88));
-    border: 1px solid rgba(148,163,184,0.08);
-    border-radius: clamp(10px, 2vw, 16px);
-    box-shadow: 0 14px 40px rgba(2,6,23,0.5);
+    width: 100%;
+    background: #111827;
+    border-radius: 14px;
+    padding: 14px;
+    color: #f8fafc;
 }
 
 /* kleine visuele tweaks — rustiger kleuren voor badges */
