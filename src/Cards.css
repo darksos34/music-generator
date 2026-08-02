@@ -24,42 +24,6 @@ html, body {
     padding: 16px;
 }
 
-/* grote, afgeronde vorm die buiten de viewport mag 'overflowen' — zacht en donker */
-.cards-page::before{
-    content: "";
-    position: absolute;
-    inset: 0; /* vul container */
-    left: 50%;
-    top: -8%;
-    width: 140%;                /* groter dan viewport zodat het buiten valt */
-    height: 120%;
-    transform: translateX(-50%) rotate(-6deg); /* zacht gekanteld */
-    border-radius: 28% / 18%;   /* organische, afgeronde vorm */
-    background: radial-gradient(1200px 600px at 20% 10%, rgba(35,58,86,0.18) 0%, transparent 28%),
-    linear-gradient(180deg, var(--bg-start) 0%, var(--bg-mid) 50%, var(--bg-end) 100%);
-    filter: blur(18px) saturate(110%);
-    opacity: 0.98;
-    z-index: 0;
-    pointer-events: none;
-    box-shadow: 0 30px 90px rgba(2,6,23,0.65); /* diepte achter de kaart */
-}
-
-/* subtiele extra 'glow' accent onder de kaarten (zacht kleurverloop) */
-.cards-page::after{
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -8%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 260px;
-    border-radius: 50%;
-    background: radial-gradient(closest-side, rgba(59,130,246,0.06), transparent 50%);
-    filter: blur(24px);
-    z-index: 0;
-    pointer-events: none;
-}
-
 .cards-stack {
     width: min(760px, 100%);
     display: grid;
