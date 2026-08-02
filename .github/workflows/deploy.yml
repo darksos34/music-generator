@@ -13,39 +13,28 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    # Verwijder deze twee regels; ze zijn niet meer nodig als je v6 gebruikt
-    # env:
-    #   NODE_OPTIONS: --no-deprecation
-    #   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    # GEEN env variabelen meer nodig!
 
     steps:
-      # Checkout is al goed op v6
-      - uses: actions/checkout@v6
+      - name: Checkout
+        uses: actions/checkout@v6
 
-      # ⚠️ CRUCIAAL: Update van v4 naar v6
-      # v4 is de oorzaak van je waarschuwingen. v6 draait native op Node 24.
-      - uses: actions/upload-artifact@v6
-        with:
-          name: dist
-          # Voeg 'retention-days' of 'compression-level' toe als je dat eerder deed,
-          # maar de basis syntax blijft hetzelfde.
-
-      - uses: actions/setup-node@v5
+      - name: Setup Node
+        uses: actions/setup-node@v5
         with:
           node-version: 24
+          cache: 'npm' # Dit vervangt vaak de aparte cache stap voor npm
 
-      - uses: actions/cache@v5
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npm ci
-      - run: npm run build
+      - name: Build
+        run: npm run build
 
-      # Upload artifact voor Pages (deze is vaak al bijgewerkt door GitHub,
-      # maar check of er een v4 is als de waarschuwing hier vandaan komt)
+      # ⚠️ DE OPLOSSING: Update van v3 naar v4
+      # v3 is gebouwd voor Node 20 en veroorzaakt je waarschuwing.
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./dist
 
